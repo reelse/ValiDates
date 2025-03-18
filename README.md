@@ -4,7 +4,7 @@ The customizable, rule-based, date-time picker for React!
 ValiDates is a dateTime picker for React that aims to simply provide you the ability to setup dateTime ranges that fall into one of four categories:
 
 - Info: This is a totally legitimate dateTime that the end user should be able to select.
-i.e. "I started working today at 8am"
+i.e. "I started working today at 8am"\
 `rules={} // ValiDate is permissive by default. This would let the user select any date since 0CE!`\
 `rules={ level: 'info', range: 'before', date: new Date('3000-1-1'), message: 'Thanks for clocking in!' }`
 
