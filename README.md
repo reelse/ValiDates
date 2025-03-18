@@ -1,5 +1,5 @@
 # ValiDates (In Progress)
-The customizable, rule-based, date-time picker for React!
+The customizable, rule-based, dateTime picker for React!
 
 ## TOC
 - [Ethos](#ethos)
