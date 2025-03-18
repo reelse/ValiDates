@@ -56,15 +56,10 @@ Rules are in priority order. ValiDates selects the first rule that fits each pos
 ## How to Use
 
 
-### Simply
+### Simplest and Most Permissive
 
 ```
 import { ValiDateTimePicker } from '@reelse/vali-dates'
-
-// the first date that the user is allowed to pick
-// all dates before this are invalid 
-const startDateTime = new Date('1970-1-1 UTC').toISOString()
-const endDateTime = new Date('3000-1-1 UTC').toISOString()
 
 // Allow the user to select any date at any time with the default styling
 return <ValiDateTimePicker rules={} />
