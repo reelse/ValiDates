@@ -19,41 +19,41 @@ i.e. "I started working today at 8am"\
 
 - Error: The end user should not be able to select this dateTime because it doesn't make sense for your application. The end user is shown a message but cannot submit.\
 i.e. "I started working yesterday at 2am"
-```
-const startOfToday = new Date()
-startOfToday.setHours(0, 0, 0, 0)
-
-const endOfToday = new Date()
-endOfToday.setHours(23, 59, 59, 999)
-
-const message = 'The selected date must be today.'
-
-rules={[
-  { level: 'error',  range: 'before', date: startOfToday, message },
-  { level: 'error',  range: 'after', date: endOfToday, message },
-]}
-```
+  ```
+  const startOfToday = new Date()
+  startOfToday.setHours(0, 0, 0, 0)
+  
+  const endOfToday = new Date()
+  endOfToday.setHours(23, 59, 59, 999)
+  
+  const message = 'The selected date must be today.'
+  
+  rules={[
+    { level: 'error',  range: 'before', date: startOfToday, message },
+    { level: 'error',  range: 'after', date: endOfToday, message },
+  ]}
+  ```
 
 - Warning: The end user is allowed to select this date, but is shown a warning message letting them know that it may not be what they expected.\
 i.e. "I was scheduled to work at 8am, but I started working at 7am"
-```
-const startOfWork = new Date()
-startOfWork.setHours(8, 0, 0, 0)
-
-rules={[
-  { level: 'warning', range: 'before', date: startOfWork, message: 'Are you sure you meant to start before 8am?' },
-]}
-```
+  ```
+  const startOfWork = new Date()
+  startOfWork.setHours(8, 0, 0, 0)
+  
+  rules={[
+    { level: 'warning', range: 'before', date: startOfWork, message: 'Are you sure you meant to start before 8am?' },
+  ]}
+  ```
 
 - Invalid: The end user cannot select this date. No message is shown because the date does not show up on the picker.\
 i.e. "I want to start working at 8am... on Jan 1, 1969"
-```
-const startOfEpoch = new Date('1970-1-1 UTC')
-
-rules={[
-  { level: 'invalid', range: 'before', date: startOfEpoch },
-]}
-```
+  ```
+  const startOfEpoch = new Date('1970-1-1 UTC')
+  
+  rules={[
+    { level: 'invalid', range: 'before', date: startOfEpoch },
+  ]}
+  ```
 
 Rules are in priority order. ValiDates selects the first rule that fits each possible dateTime. If no rule fits, the dateTime is valid.
 
