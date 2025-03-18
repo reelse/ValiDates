@@ -1,6 +1,43 @@
 # ValiDates (In Progress)
 The customizable, rule-based, date-time picker for React!
 
+ValiDates is a dateTime picker for React that aims to simply provide you the ability to setup dateTime ranges that fall into one of three categories:
+
+- Valid (`Info`): This is a totally legitimate dateTime that the end user should be able to select.
+i.e. "I started working today at 8am"
+`rules={} // ValiDate is permissive by default. This would let the user select any date since 0CE!`\
+`rules={ level: 'info', message: 'Thanks for clocking in!' }`
+
+- Invalid (`Error`): The end user should not be able to select this dateTime because it doesn't make sense for your application.
+i.e. "I started working yesterday at 2am"
+```
+const startOfToday = new Date()
+startOfToday.setHours(0, 0, 0, 0)
+
+const endOfToday = new Date()
+endOfToday.setHours(23, 59, 59, 999)
+
+const message = 'The selected date must be today.'
+
+rules={[
+  { level: 'error',  range: 'before', date: startOfToday, message },
+  { level: 'error',  range: 'after', date: endOfToday, message },
+]}
+```
+
+- Warning (`Warning`): The end user is allowed to select this date, but is shown a warning message letting them know that it may not be what they expected.
+i.e. "I was scheduled to work at 8am, but I started working at 7am"
+```
+  const startOfWork = new Date()
+  startOfWork.setHours(8, 0, 0, 0)
+
+  rules={[
+    { level: 'warning', range: 'before', date: startOfWork, message: 'Are you sure you meant to start before 8am?' },
+  ]}
+```
+
+Rules are in priority order. ValiDates selects the first rule that fits the selected time. If no rule fits, the dateTime is valid.
+
 
 ## Installation
 `yarn add @reelse/vali-dates`
@@ -40,6 +77,7 @@ return <ValiDateTimePicker rules={} />
 
 For a full breakdown of possible style props, see here.
 
+
 ### Style the Picker with CSS
 
 MyComponent.jsx:
@@ -62,6 +100,29 @@ MyComponent.module.css:
 .dateTimeButtonsClassName {
   backgroundColor: 'orange';
 }
+```
+
+### Add Rules
+```
+const startOfToday = new Date()
+startOfToday.setHours(0, 0, 0, 0)
+
+const endOfToday = new Date()
+endOfToday.setHours(23, 59, 59, 999)
+
+const startOfWork = new Date()
+startOfWork.setHours(8, 0, 0, 0)
+
+const errorMessage = 'The selected date must be today.'
+const warningMessage = 'Are you sure you meant to start before 8am?'
+
+<ValiDateTimePicker
+  rules={[
+    { level: 'error',  range: 'before', date: startOfToday, message },
+    { level: 'error',  range: 'after', date: endOfToday, message },
+    { level: 'warning', range: 'before', date: startOfWork, message: 'Are you sure you meant to start before 8am?' },
+  ]}
+/>
 ```
 
 
