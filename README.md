@@ -65,6 +65,7 @@ return <ValiDateTimePicker rules={} />
 
 ```
 <ValiDateTimePicker
+  rules={}
   modalContainerStyles={{
     borderRadius: '30px',
     boxShadow: 'rgba(50, 50, 90, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.25) 0px 4px 8px -4px',
@@ -85,6 +86,7 @@ MyComponent.jsx:
 import styles from './MyComponent.module.css'
 
 <ValiDateTimePicker
+  rules={}
   modalClassName={styles.modalClassName}
   dateTimeButtonsClassName={styles.dateTimeButtonsClassName}
 />
@@ -118,9 +120,9 @@ const warningMessage = 'Are you sure you meant to start before 8am?'
 
 <ValiDateTimePicker
   rules={[
-    { level: 'error',  range: 'before', date: startOfToday, message },
-    { level: 'error',  range: 'after', date: endOfToday, message },
-    { level: 'warning', range: 'before', date: startOfWork, message: 'Are you sure you meant to start before 8am?' },
+    { level: 'error',  range: 'before', date: startOfToday, errorMessage },
+    { level: 'error',  range: 'after', date: endOfToday, errorMessage },
+    { level: 'warning', range: 'before', date: startOfWork, message: warningMessage },
   ]}
 />
 ```
