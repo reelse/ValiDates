@@ -67,17 +67,17 @@ Rules are in priority order. ValiDates selects the first rule that fits each pos
 ### Simplest and Most Permissive
 
 ```
-import { ValiDateTimePicker } from '@reelse/vali-dates'
+import { ValiDatesTimePicker } from '@reelse/vali-dates'
 
 // Allow the user to select any date at any time with the default styling
-return <ValiDateTimePicker rules={} />
+return <ValiDatesTimePicker rules={} />
 ```
 
 
 ### Style the Picker Inline
 
 ```
-<ValiDateTimePicker
+<ValiDatesTimePicker
   rules={}
   modalContainerStyles={{
     borderRadius: '30px',
@@ -98,7 +98,7 @@ MyComponent.jsx:
 ```
 import styles from './MyComponent.module.css'
 
-<ValiDateTimePicker
+<ValiDatesTimePicker
   rules={}
   modalClassName={styles.modalClassName}
   dateTimeButtonsClassName={styles.dateTimeButtonsClassName}
@@ -131,7 +131,7 @@ startOfWork.setHours(8, 0, 0, 0)
 const errorMessage = 'The selected date must be today.'
 const warningMessage = 'Are you sure you meant to start before 8am?'
 
-<ValiDateTimePicker
+<ValiDatesTimePicker
   rules={[
     { level: 'error',  range: 'before', date: startOfToday, errorMessage },
     { level: 'error',  range: 'after', date: endOfToday, errorMessage },
