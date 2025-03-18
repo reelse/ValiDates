@@ -1,11 +1,17 @@
 # ValiDates (In Progress)
 The customizable, rule-based, dateTime picker for React!
 
+
+<br/>
+
 ## TOC
 - [Ethos](#ethos)
 - [Installation](#installation)
 - [How to Use](#how-to-use)
 - [Contributing to the Project](#contributing-to-the-project)
+
+
+<br/>
 
 <a name="ethos"></a>
 ## Ethos
@@ -57,9 +63,15 @@ i.e. "I want to start working at 8am... on Jan 1, 1969"
 
 Rules are in priority order. ValiDates selects the first rule that fits each possible dateTime. If no rule fits, the dateTime is valid.
 
+
+<br/>
+
 <a name="installation"></a>
 ## Installation
 `yarn add @reelse/vali-dates`
+
+
+<br/>
 
 <a name="how-to-use"></a>
 ## How to Use
@@ -139,6 +151,9 @@ const warningMessage = 'Are you sure you meant to start before 8am?'
   ]}
 />
 ```
+
+
+<br/>
 
 <a name="contributing-to-the-project"></a>
 ## Contributing to the Project
