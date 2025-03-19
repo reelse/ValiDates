@@ -1,15 +1,15 @@
 {
-  "name": "vali-dates",
-  "version": "0.0.1",
+  "name": "@reelse/vali-dates",
+  "version": "0.0.2",
   "description": "The customizable, rule-based, dateTime picker for React!",
-  "main": "index.js",
+  "main": "dist/vali-date.umd.cjs",
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "keywords": [],
-  "author": "ReelDev",
+  "author": "Virtual Masons",
   "license": "MIT",
   "devDependencies": {
     "@chromatic-com/storybook": "^3",
