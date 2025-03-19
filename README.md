@@ -160,5 +160,7 @@ const warningMessage = 'Are you sure you meant to start before 8am?'
 
 Thanks for your help! To contribute:
 - clone the repo
+- `yarn`
+- `yarn storybook`
 - make your changes on a new branch
 - create a PR against main
