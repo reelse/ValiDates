@@ -5,7 +5,7 @@ export function Component() {
 
   return (
     <div>
-      <p>It's a calendar... or, it will be soon!</p>
+      <p>It's a calendar... or, it will be soon!!</p>
     </div>
   );
 }

@@ -1,0 +1,13 @@
+# Ignore all files and folders except the ones that are needed for the package
+# We want to ignore most things that aren't dist or package.json
+
+# folders
+.storybook
+node_modules
+stories
+
+# files
+index.tsx
+vite.config.js
+vitest.config.js
+yarn.lock

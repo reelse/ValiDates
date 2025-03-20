@@ -9,6 +9,7 @@ The customizable, rule-based, dateTime picker for React!
 - [Installation](#installation)
 - [How to Use](#how-to-use)
 - [Contributing to the Project](#contributing-to-the-project)
+- [Publishing to NPM](#publishing-to-npm)
 
 
 <br/>
@@ -164,3 +165,13 @@ Thanks for your help! To contribute:
 - `yarn storybook`
 - make your changes on a new branch
 - create a PR against main
+
+
+<br/>
+
+<a name="publishing-to-npm"></a>
+## Publishing to NPM
+This can only be done by those with access to the npm organization.
+
+- `npm login`
+- `npm publish --access public` and follow the prompts to increase the version.
