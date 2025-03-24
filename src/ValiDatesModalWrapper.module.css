@@ -1,0 +1,18 @@
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: black;
+  opacity: 0.1;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 8px;
+  min-width: 256px;
+  padding: 16px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

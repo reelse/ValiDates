@@ -1,40 +1,42 @@
 # ValiDates (In Progress)
-The customizable, rule-based, dateTime picker for React!
 
+The customizable, rule-based, dateTime picker for React!
 
 <br/>
 
 ## TOC
+
 - [Ethos](#ethos)
 - [Installation](#installation)
 - [How to Use](#how-to-use)
 - [Contributing to the Project](#contributing-to-the-project)
 - [Publishing to NPM](#publishing-to-npm)
 
-
 <br/>
 
 <a name="ethos"></a>
+
 ## Ethos
 
 ValiDates is a dateTime picker for React that aims to simply provide you the ability to setup dateTime ranges that fall into one of four categories:
 
 - **Info**: This is a totally legitimate dateTime that the end user should be able to select.\
-i.e. "I started working today at 8am"\
-`rules={} // ValiDate is permissive by default. This would let the user select any date since 0CE!`\
-`rules={ level: 'info', range: 'before', date: new Date('3000-1-1'), message: 'Thanks for clocking in!' }`
+  i.e. "I started working today at 8am"\
+  `rules={} // ValiDate is permissive by default. This would let the user select any date since 0CE!`\
+  `rules={ level: 'info', range: 'before', date: new Date('3000-1-1'), message: 'Thanks for clocking in!' }`
 
 - **Error**: The end user should not be able to select this dateTime because it doesn't make sense for your application. The end user is shown a message but cannot submit.\
-i.e. "I started working yesterday at 2am"
+  i.e. "I started working yesterday at 2am"
+
   ```
   const startOfToday = new Date()
   startOfToday.setHours(0, 0, 0, 0)
-  
+
   const endOfToday = new Date()
   endOfToday.setHours(23, 59, 59, 999)
-  
+
   const message = 'The selected date must be today.'
-  
+
   rules={[
     { level: 'error',  range: 'before', date: startOfToday, message },
     { level: 'error',  range: 'after', date: endOfToday, message },
@@ -42,21 +44,23 @@ i.e. "I started working yesterday at 2am"
   ```
 
 - **Warning**: The end user is allowed to select this date, but is shown a warning message letting them know that it may not be what they expected.\
-i.e. "I was scheduled to work at 8am, but I started working at 7am"
+  i.e. "I was scheduled to work at 8am, but I started working at 7am"
+
   ```
   const startOfWork = new Date()
   startOfWork.setHours(8, 0, 0, 0)
-  
+
   rules={[
     { level: 'warning', range: 'before', date: startOfWork, message: 'Are you sure you meant to start before 8am?' },
   ]}
   ```
 
 - **Invalid**: The end user cannot select this date. No message is shown because the date does not show up on the picker.\
-i.e. "I want to start working at 8am... on Jan 1, 1969"
+  i.e. "I want to start working at 8am... on Jan 1, 1969"
+
   ```
   const startOfEpoch = new Date('1970-1-1 UTC')
-  
+
   rules={[
     { level: 'invalid', range: 'before', date: startOfEpoch },
   ]}
@@ -64,17 +68,18 @@ i.e. "I want to start working at 8am... on Jan 1, 1969"
 
 Rules are in priority order. ValiDates selects the first rule that fits each possible dateTime. If no rule fits, the dateTime is valid.
 
-
 <br/>
 
 <a name="installation"></a>
-## Installation
-`yarn add @reelse/vali-dates`
 
+## Installation
+
+`yarn add @reelse/vali-dates`
 
 <br/>
 
 <a name="how-to-use"></a>
+
 ## How to Use
 
 ### Simplest and Most Permissive
@@ -85,7 +90,6 @@ import { ValiDatesTimePicker } from '@reelse/vali-dates'
 // Allow the user to select any date at any time with the default styling
 return <ValiDatesTimePicker rules={} />
 ```
-
 
 ### Style the Picker Inline
 
@@ -104,10 +108,10 @@ return <ValiDatesTimePicker rules={} />
 
 For a full breakdown of possible style props, see here.
 
-
 ### Style the Picker with CSS
 
 MyComponent.jsx:
+
 ```
 import styles from './MyComponent.module.css'
 
@@ -119,6 +123,7 @@ import styles from './MyComponent.module.css'
 ```
 
 MyComponent.module.css:
+
 ```
 .modalClassName {
   border-radius: '30px';
@@ -131,6 +136,7 @@ MyComponent.module.css:
 ```
 
 ### Add Rules
+
 ```
 const startOfToday = new Date()
 startOfToday.setHours(0, 0, 0, 0)
@@ -153,24 +159,26 @@ const warningMessage = 'Are you sure you meant to start before 8am?'
 />
 ```
 
-
 <br/>
 
 <a name="contributing-to-the-project"></a>
+
 ## Contributing to the Project
 
 Thanks for your help! To contribute:
+
 - clone the repo
 - `yarn`
 - `yarn storybook`
 - make your changes on a new branch
 - create a PR against main
 
-
 <br/>
 
 <a name="publishing-to-npm"></a>
+
 ## Publishing to NPM
+
 This can only be done by those with access to the npm organization.
 
 - `npm login`

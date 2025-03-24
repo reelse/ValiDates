@@ -1,0 +1,18 @@
+{
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/globals.d.ts",
+    ".storybook/**/*.ts",
+    "stories/**/*.ts",
+    "stories/**/*.tsx"
+  ],
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "lib": ["esnext"]
+  }
+}

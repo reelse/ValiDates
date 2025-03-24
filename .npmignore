@@ -5,9 +5,14 @@
 .storybook
 node_modules
 stories
+src
+assets
 
 # files
 index.tsx
 vite.config.js
 vitest.config.js
 yarn.lock
+tsconfig.json
+eslint.config.js
+prettierrc.json

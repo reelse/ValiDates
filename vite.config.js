@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, './index.tsx'),
+      entry: resolve(__dirname, './src/index.tsx'),
       name: 'ValiDate',
       // the proper extensions will be added
       fileName: 'vali-date',
