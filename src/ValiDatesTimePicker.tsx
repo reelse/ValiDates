@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from "motion/react"
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 import styles from './ValiDatesTimePicker.module.css'
 import { Rule } from './'
@@ -23,17 +23,38 @@ const SMALL_STRING_HEIGHT = 24
 const CALENDAR_HEIGHT = 100
 const TIME_PICKER_HEIGHT = 100
 
-const getRuleForDate = (date: Date, rules: Array<Rule>): Rule | undefined =>
+const DEFAULT_RULE: Rule = {
+  level: 'info',
+  range: 'after',
+  date: new Date(-8640000000000000), // Tuesday, April 20th, 271,821 BCE
+}
+
+
+const getRuleForDate = (date: Date, rules: Array<Rule>): Rule =>
   rules.find(rule => {
     if (rule.date === date) return rule
     if (rule.date < date && rule.range === 'before') return rule
     if (rule.date > date && rule.range === 'after') return rule
-  })
+  }) || DEFAULT_RULE
 
 export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
   const [date, setDate] = React.useState<Date>(new Date())
-  const [editor, setEditor] = React.useState<'time' | 'date'>('time')
+  const rule = getRuleForDate(date, props.rules)
 
+  const ruleMessageElement: React.JSX.Element | undefined = match(rule)
+    .with({ level: 'info', message: P.string }, rule => <p>{rule.message}</p>)
+    .with({ level: 'error', message: P.string }, rule => <p>{rule.message}</p>)
+    .with({ level: 'warning', message: P.string }, rule => <p>{rule.message}</p>)
+    .with(
+      { level: 'info' },
+      { level: 'error' },
+      { level: 'warning' },
+      { level: 'invalid' },
+      () => undefined
+    )
+    .exhaustive()
+
+  const [editor, setEditor] = React.useState<'time' | 'date'>('time')
   const smallDateDisplayStringStyles = match(editor)
     .with('time', () => ({ height: SMALL_STRING_HEIGHT, opacity: 1 })) // when we are editing the time, show the small date string
     .with('date', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the small date string
@@ -94,11 +115,12 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         <p> full time picker here </p>
       </motion.div>
     </div>
-    <div className={styles.section}>
-      <p> Info text here </p>
-      <p> Error text here </p>
-      <p> Warning text here </p>
-    </div>
+    {
+      ruleMessageElement &&
+      <div className={styles.section}>
+        {ruleMessageElement}
+      </div>
+    }
     <div className={styles.actionButtons}>
       <button onClick={() => props.onDateTimeChange(date)}>CANCEL</button>
       <button onClick={() => props.onCancel()}>CONFIRM</button>
