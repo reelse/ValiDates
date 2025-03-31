@@ -2,6 +2,14 @@ import React from 'react'
 
 import styles from './ValiDatesTimePicker.module.css'
 import { Rule } from './'
+import { SelectScroller } from './SelectScroller'
+
+const TIME_VALUES_HOURS = Array.from({ length: 12 }, (_, i) => {
+  i = i === 0 ? 12 : i
+  return `${i.toString()}:`
+})
+const TIME_VALUES_MINUTES = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'))
+const TIME_VALUES_AMPM = ['AM', 'PM']
 
 export type ValiDatesTimePickerProps = {
   rules: Array<Rule>
@@ -25,7 +33,15 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => (
       <a>TODAY, AUG 10, 2025 ✎</a>
     </div>
     <div className={styles.section}>
+      <hr className={styles.horizontalRule} />
+    </div>
+    <div className={styles.section}>
       <h3>Time</h3>
+      <div className={styles.timeScrollers}>
+        <SelectScroller values={TIME_VALUES_HOURS} />
+        <SelectScroller values={TIME_VALUES_MINUTES} />
+        <SelectScroller values={TIME_VALUES_AMPM} />
+      </div>
     </div>
   </div>
 )
