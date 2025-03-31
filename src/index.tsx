@@ -4,7 +4,7 @@ import '@fontsource-variable/nunito'
 import './index.css'
 import './reset.css'
 import { ValiDatesTimePicker as ValiDatesTimePickerComponent } from '../src/ValiDatesTimePicker'
-import { ValiDatesModalWrapper as ValiDatesModalWrapperComponent } from '../src/ValiDatesModalWrapper'
+import { ValiDatesTimePickerModal as ValiDatesTimePickerModalComponent } from '../src/ValiDatesTimePickerModal'
 
 // ranges are inclusive
 export type Range = 'before' | 'after'
@@ -18,4 +18,4 @@ export type Rule =
   | { level: 'invalid'; range: Range; date: ValiDate }
 
 export const ValiDatesTimePicker = ValiDatesTimePickerComponent
-export const ValiDatesModalWrapper = ValiDatesModalWrapperComponent
+export const ValiDatesTimePickerModal = ValiDatesTimePickerModalComponent

@@ -14,5 +14,12 @@ export default {
 export const SimplestExample: { args: ValiDatesTimePickerProps } = {
   args: {
     rules: [],
+    timezone: 'America/New_York',
+    onDateTimeChange: (date) => {
+      throw new Error('onDateTimeChange: ' + date)
+    },
+    onCancel: function (): void {
+      throw new Error('onCancel')
+    }
   },
 }

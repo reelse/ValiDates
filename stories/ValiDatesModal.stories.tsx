@@ -1,19 +1,28 @@
+import React from 'react'
 import '@fontsource-variable/manrope'
 import '@fontsource-variable/nunito'
-import React from 'react'
 
 import '../src/reset.css'
 import '../src/index.css'
-import { ValiDatesModalWrapper, ValiDatesModalWrapperProps } from '../src/ValiDatesModalWrapper'
-import { ValiDatesTimePicker } from '../src/ValiDatesTimePicker'
+import { ValiDatesTimePickerModal, ValiDatesTimePickerModalProps } from '../src/ValiDatesTimePickerModal'
 
 export default {
   title: 'ValiDate',
-  component: ValiDatesModalWrapper,
+  component: ValiDatesTimePickerModal,
 }
 
-export const SimplestExampleInModal: { args: ValiDatesModalWrapperProps } = {
+export const SimplestExampleInModal: { args: ValiDatesTimePickerModalProps } = {
   args: {
-    children: <ValiDatesTimePicker rules={[]} />,
+    open: true,
+    valiDatesTimePickerProps: {
+      rules: [],
+      timezone: 'America/New_York',
+      onDateTimeChange: (date) => {
+        throw new Error('onDateTimeChange: ' + date)
+      },
+      onCancel: function (): void {
+        throw new Error('onCancel')
+      }
+    },
   },
 }

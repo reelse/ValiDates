@@ -20,3 +20,25 @@
   display: flex;
   gap: 8px;
 }
+
+.actionButtons {
+  display: flex;
+  gap: 16px;
+}
+
+.actionButtons>button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  width: 100%;
+}
+
+.actionButtons>button:first-child {
+  background-color: white;
+  color: #007bff;
+  border: 1px solid #007bff;
+  width: 80%;
+}
