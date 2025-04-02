@@ -1,0 +1,29 @@
+.container {
+  min-width: 100%;
+  min-height: 32px;
+}
+
+.monthHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 16px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.monthYearHeader {
+  display: flex;
+  gap: 8px;
+}
+
+.daysTable {
+  width: 100%;
+}
+
+.daysTable td,
+.daysTable th {
+  padding: 8px;
+  border-radius: 8px;
+}

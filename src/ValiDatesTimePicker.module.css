@@ -21,6 +21,10 @@
   gap: 8px;
 }
 
+.calendarPicker {
+  width: 100%;
+}
+
 .actionButtons {
   display: flex;
   gap: 16px;

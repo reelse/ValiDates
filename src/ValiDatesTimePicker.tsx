@@ -5,6 +5,7 @@ import { match, P } from 'ts-pattern'
 import styles from './ValiDatesTimePicker.module.css'
 import { Rule } from './'
 import { SelectScroller } from './SelectScroller'
+import { CalendarPicker } from './CalendarPicker'
 
 const TIME_VALUES_HOURS = Array.from({ length: 12 }, (_, i) => {
   i = i === 0 ? 12 : i
@@ -28,7 +29,7 @@ const defaultProps: Partial<ValiDatesTimePickerProps> = {
 }
 
 const SMALL_STRING_HEIGHT = 24
-const CALENDAR_HEIGHT = 100
+const CALENDAR_HEIGHT = 240
 const TIME_PICKER_HEIGHT = 32 * 7
 
 const DEFAULT_RULE: Rule = {
@@ -61,7 +62,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
     )
     .exhaustive()
 
-  const [editor, setEditor] = React.useState<'time' | 'date'>('time')
+  const [editor, setEditor] = React.useState<'time' | 'date'>('date')
   const smallDateDisplayStringStyles = match(editor)
     .with('time', () => ({ height: `${SMALL_STRING_HEIGHT}px`, opacity: 1 })) // when we are editing the time, show the small date string
     .with('date', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the small date string
@@ -96,6 +97,9 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
     setDate(new Date(date.setHours(newHours)))
   }
 
+  const handleDayMonthChange = (date: Date) => {
+  }
+
   return <div className={styles.container}>
     <div className={styles.section}>
       <h1>{props.title}</h1>
@@ -113,11 +117,12 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
       </motion.div>
       {/* full calendar */}
       <motion.div
+        className={styles.calendarPicker}
         animate={calendarDisplayStyles}
         initial={calendarDisplayStyles}
         style={{ overflow: 'hidden' }}
       >
-        <p> full calendar here </p>
+        <CalendarPicker onDateChange={handleDayMonthChange} defaultDate={date} />
       </motion.div>
     </div>
     <div className={styles.section}>
