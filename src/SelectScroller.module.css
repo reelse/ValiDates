@@ -1,18 +1,18 @@
 .container {
   width: 40px;
-  height: calc(48px * 4);
 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  border: 1px solid #DCDCE0;
+  /* border: 1px solid #DCDCE0; */
 }
 
 .text {
   font-weight: 600;
   font-size: 24px;
-  line-height: 32px;
-  color: #202021
+  /* line-height: 32px; set using jsx style */
+  color: #202021;
+  white-space: pre;
 }

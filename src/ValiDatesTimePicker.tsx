@@ -29,14 +29,13 @@ const defaultProps: Partial<ValiDatesTimePickerProps> = {
 
 const SMALL_STRING_HEIGHT = 24
 const CALENDAR_HEIGHT = 100
-const TIME_PICKER_HEIGHT = 100
+const TIME_PICKER_HEIGHT = 32 * 7
 
 const DEFAULT_RULE: Rule = {
   level: 'info',
   range: 'after',
   date: new Date(-8640000000000000), // Tuesday, April 20th, 271,821 BCE
 }
-
 
 const getRuleForDate = (date: Date, rules: Array<Rule>): Rule =>
   rules.find(rule => {
@@ -64,21 +63,38 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
 
   const [editor, setEditor] = React.useState<'time' | 'date'>('time')
   const smallDateDisplayStringStyles = match(editor)
-    .with('time', () => ({ height: SMALL_STRING_HEIGHT, opacity: 1 })) // when we are editing the time, show the small date string
+    .with('time', () => ({ height: `${SMALL_STRING_HEIGHT}px`, opacity: 1 })) // when we are editing the time, show the small date string
     .with('date', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the small date string
     .exhaustive()
   const calendarDisplayStyles = match(editor)
-    .with('date', () => ({ height: CALENDAR_HEIGHT, opacity: 1 })) // when we are editing the date, show the full calendar
+    .with('date', () => ({ height: `${CALENDAR_HEIGHT}px`, opacity: 1 })) // when we are editing the date, show the full calendar
     .with('time', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the full calendar
     .exhaustive()
   const smallTimeDisplayStringStyles = match(editor)
-    .with('date', () => ({ height: SMALL_STRING_HEIGHT, opacity: 1 })) // when we are editing the date, show the small time string
+    .with('date', () => ({ height: `${SMALL_STRING_HEIGHT}px`, opacity: 1 })) // when we are editing the date, show the small time string
     .with('time', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the small time string
     .exhaustive()
   const timePickerDisplayStyles = match(editor)
-    .with('time', () => ({ height: TIME_PICKER_HEIGHT, opacity: 1 })) // when we are editing the time, show the full time picker
+    .with('time', () => ({ height: `${TIME_PICKER_HEIGHT}px`, opacity: 1 })) // when we are editing the time, show the full time picker
     .with('date', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the full time picker
     .exhaustive()
+
+  const handleHoursSelect = (value: string) => {
+    const hours = parseInt(value.split(':')[0])
+    setDate(new Date(date.setHours(hours)))
+  }
+
+  const handleMinutesSelect = (value: string) => {
+    const minutes = parseInt(value)
+    setDate(new Date(date.setMinutes(minutes)))
+  }
+
+  const handleAmPmSelect = (value: string) => {
+    const hours = date.getHours()
+    const isAm = value === 'AM'
+    const newHours = isAm ? hours % 12 : hours % 12 + 12
+    setDate(new Date(date.setHours(newHours)))
+  }
 
   return <div className={styles.container}>
     <div className={styles.section}>
@@ -115,19 +131,32 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         initial={smallTimeDisplayStringStyles}
         style={{ overflow: 'hidden' }}
       >
-        <a onClick={() => setEditor('time')}>6:26 PM ✎</a>
+        <a onClick={() => setEditor('time')}>
+          {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} ✎
+        </a>
       </motion.div>
       {/* full time picker */}
       <motion.div
+        className={styles.timeScrollers}
         animate={timePickerDisplayStyles}
         initial={timePickerDisplayStyles}
         style={{ overflow: 'hidden' }}
       >
-        <div className={styles.timeScrollers}>
-          <SelectScroller values={TIME_VALUES_HOURS} />
-          <SelectScroller values={TIME_VALUES_MINUTES} />
-          <SelectScroller values={TIME_VALUES_AMPM} />
-        </div>
+        <SelectScroller
+          values={TIME_VALUES_HOURS}
+          onSelect={handleHoursSelect}
+          defaultValue={`${(date.getHours() + 1) % 12}:`}
+        />
+        <SelectScroller
+          values={TIME_VALUES_MINUTES}
+          onSelect={handleMinutesSelect}
+          defaultValue={(date.getMinutes() + 1).toString().padStart(2, '0')}
+        />
+        <SelectScroller
+          values={TIME_VALUES_AMPM}
+          onSelect={handleAmPmSelect}
+          defaultValue={(date.getHours() + 1) < 12 ? 'AM' : 'PM'}
+        />
       </motion.div>
     </div >
     {
