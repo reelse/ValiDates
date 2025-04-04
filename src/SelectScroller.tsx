@@ -42,14 +42,28 @@ export const SelectScroller = (props: SelectScrollerProps) => {
     y.set(offset)
   }, [])
 
-  useEffect(() => {
-  }, [y])
+  const getCurrentlySelectedIndex = (target: number) => {
+    const middleIndex = Math.floor(values.length / 2) - 1
+    let index = middleIndex - Math.round(target / LINE_HEIGHT)
+    const paddingCount = Math.floor(NUM_SHOWN_VALUES / 2)
+    if (!props.infiniteValues && index < paddingCount) {
+      index = paddingCount
+    }
+    if (!props.infiniteValues && index > values.length - paddingCount - 1) {
+      index = values.length - paddingCount - 1
+    }
+    return index
+  }
 
   return <div
     className={styles.container}
     ref={constraintsRef}
     style={{ height: `${LINE_HEIGHT * NUM_SHOWN_VALUES}px` }}
   >
+    <div
+      className={styles.opacityOverlay}
+    // style={{ height: `${LINE_HEIGHT * NUM_SHOWN_VALUES}px` }}
+    />
     <motion.div
       style={{ y }}
       drag='y'
@@ -59,22 +73,18 @@ export const SelectScroller = (props: SelectScrollerProps) => {
         power: 0, // how much the velocity will be used to keep the component moving after you release it
         timeConstant: 100, // how fast the animation snaps to the target value
         modifyTarget: target => {
-          const middleIndex = Math.floor(values.length / 2) - 1
-          const index = middleIndex - Math.round(target / LINE_HEIGHT)
+          const index = getCurrentlySelectedIndex(target)
           props.onSelect(values[index])
           return (Math.round(target / LINE_HEIGHT) + 0.5) * LINE_HEIGHT // snap to grid
         }
       }}
     >
       {values.map((value, index) => {
-        const opacity = ((values.length * LINE_HEIGHT) - y.get()) / (LINE_HEIGHT * values.length)
-
         return <p
           key={index}
           className={styles.text}
           style={{
             lineHeight: `${LINE_HEIGHT}px`,
-            opacity,
           }}
         >{value}</p>
       }
