@@ -5,7 +5,7 @@ import styles from './SelectScroller.module.css'
 
 type SelectScrollerProps = {
   values: Array<string>
-  onSelect: (value: string) => void
+  onSelect: (value: string, index: number) => void
   defaultValue?: string
   infiniteValues?: boolean
 }
@@ -81,7 +81,7 @@ export const SelectScroller = (props: SelectScrollerProps) => {
     }
     if (props.infiniteValues) {
       // wrap around the index to create an infinite scroll effect
-      index = index % values.length
+      index = index % props.values.length
     }
     return index
   }
@@ -102,7 +102,7 @@ export const SelectScroller = (props: SelectScrollerProps) => {
         timeConstant: 100, // how fast the animation snaps to the target value
         modifyTarget: target => {
           const index = getCurrentlySelectedIndex(target)
-          props.onSelect(values[index])
+          props.onSelect(values[index], index)
           return (Math.round(target / LINE_HEIGHT) + 0.5) * LINE_HEIGHT // snap to grid
         }
       }}

@@ -39,32 +39,39 @@ export const CalendarPicker = (props: Props) => {
     daysInMonth.slice(row * 7, row * 7 + 7)
   )
 
-  const changeMonth = (delta: number) => {
+  const changeMonth = (month: number) => {
     const currentDate = new Date(date) // save this to change it later
 
     date.setDate(1)
-    const newDate = new Date(date.setMonth(date.getMonth() + delta))
+    const newDate = new Date(date.setMonth(month))
     const numDaysInNewMonth = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate()
 
     currentDate.setDate(Math.min(currentDate.getDate(), numDaysInNewMonth))
-    currentDate.setMonth(currentDate.getMonth() + delta)
+    currentDate.setMonth(month)
     setDate(currentDate)
   }
 
   return <div className={styles.container}>
     <div className={styles.monthHeader}>
-      <a onClick={() => changeMonth(-1)}>{`<`}</a>
+      <a onClick={() => changeMonth(date.getMonth() - 1)}>{`<`}</a>
       <a onClick={() => setYearSelectOpen(!yearSelectOpen)} className={styles.monthYearHeader}>
         <p>{getMonthName(date)}</p>
         <p>{date.getFullYear()}</p>
         ✎
       </a>
-      <a onClick={() => changeMonth(1)}>{`>`}</a>
+      <a onClick={() => changeMonth(date.getMonth() + 1)}>{`>`}</a>
     </div>
     {
       yearSelectOpen &&
       <div className={styles.yearSelect}>
         <SelectScroller
+          defaultValue={getMonthName(date)}
+          values={Array.from({ length: 12 }, (_, i) => getMonthName(new Date(0, i)))}
+          onSelect={(_, month) => { changeMonth(month) }}
+          infiniteValues
+        />
+        <SelectScroller
+          defaultValue={date.getFullYear().toString()}
           values={Array.from({ length: 200 }, (_, i) => `${i + date.getFullYear() - 100}`)}
           onSelect={(year) => {
             setDate(new Date(date.setFullYear(parseInt(year))))
@@ -72,28 +79,31 @@ export const CalendarPicker = (props: Props) => {
         />
       </div>
     }
-    <table className={styles.daysTable}>
-      <tr>
-        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day =>
-          <th key={day}>{day}</th>
-        )}
-      </tr>
-      {
-        daysInMonthByRows.map((days, i) =>
-          <tr key={date.getMonth() + date.getFullYear() + i} className={styles.daysRow}>
-            {days.map((day, dayIndex) => day.trim() === ''
-              ? <td key={date.getMonth() + date.getFullYear() + dayIndex} />
-              : <Day
-                key={date.getMonth() + date.getFullYear() + day}
-                value={day}
-                selected={date.getDate().toString() === day}
-                onClick={() => setDate(new Date(date.setDate(parseInt(day))))}
-              />
-            )}
-          </tr>
-        )
-      }
-    </table>
+    {
+      !yearSelectOpen &&
+      <table className={styles.daysTable}>
+        <tr>
+          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day =>
+            <th key={day}>{day}</th>
+          )}
+        </tr>
+        {
+          daysInMonthByRows.map((days, i) =>
+            <tr key={date.getMonth() + date.getFullYear() + i} className={styles.daysRow}>
+              {days.map((day, dayIndex) => day.trim() === ''
+                ? <td key={date.getMonth() + date.getFullYear() + dayIndex} />
+                : <Day
+                  key={date.getMonth() + date.getFullYear() + day}
+                  value={day}
+                  selected={date.getDate().toString() === day}
+                  onClick={() => setDate(new Date(date.setDate(parseInt(day))))}
+                />
+              )}
+            </tr>
+          )
+        }
+      </table>
+    }
   </div>
 }
 
