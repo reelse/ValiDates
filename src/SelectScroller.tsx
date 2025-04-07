@@ -12,6 +12,7 @@ type SelectScrollerProps = {
 
 const LINE_HEIGHT = 32
 const NUM_SHOWN_VALUES = 7 // 3 above, 3 below, 1 in the middle
+const INFINITE_DUPLICATES = 9 // number of times to duplicate the values for infinite scrolling
 
 export const SelectScroller = (props: SelectScrollerProps) => {
   const constraintsRef = useRef(null)
@@ -19,7 +20,11 @@ export const SelectScroller = (props: SelectScrollerProps) => {
 
   let values = props.values
   if (props.infiniteValues) {
-    values.push(...props.values)
+    // duplicate the values to create an infinite scroll effect
+    for (let i = 0; i < INFINITE_DUPLICATES; i++) {
+      values = [...values, ...props.values]
+    }
+
   } else {
     // pad the values by Math.floor(NUM_SHOWN_VALUES / 2) on each side
     const padding = Array.from({ length: Math.floor(NUM_SHOWN_VALUES / 2) }, () => ' ')
@@ -38,8 +43,30 @@ export const SelectScroller = (props: SelectScrollerProps) => {
       }
       offset += LINE_HEIGHT * (values.length / 2 - index)
     }
+    if (props.infiniteValues) {
+      // offset by the number of duplicates
+      const numDuplicatesPadding = Math.floor(INFINITE_DUPLICATES / 2)
+      offset -= LINE_HEIGHT * props.values.length * numDuplicatesPadding
+    }
 
     y.set(offset)
+  }, [])
+
+  // if the scroller is infinite, make sure it stays in the bounds so the user never sees the end
+  useEffect(() => {
+    const unsubscribe = y.on('animationComplete', () => {
+      if (props.infiniteValues) {
+        const numDuplicatesPadding = Math.floor(INFINITE_DUPLICATES / 2)
+        const minHeight = LINE_HEIGHT * props.values.length * (numDuplicatesPadding - 0.5)
+        const maxHeight = LINE_HEIGHT * props.values.length * (numDuplicatesPadding + 1.5)
+        if (y.get() < minHeight) {
+          y.jump(y.get() + LINE_HEIGHT * props.values.length)
+        } else if (y.get() > maxHeight) {
+          y.jump(y.get() - LINE_HEIGHT * props.values.length)
+        }
+      }
+    })
+    return unsubscribe
   }, [])
 
   const getCurrentlySelectedIndex = (target: number) => {
@@ -52,6 +79,10 @@ export const SelectScroller = (props: SelectScrollerProps) => {
     if (!props.infiniteValues && index > values.length - paddingCount - 1) {
       index = values.length - paddingCount - 1
     }
+    if (props.infiniteValues) {
+      // wrap around the index to create an infinite scroll effect
+      index = index % values.length
+    }
     return index
   }
 
@@ -60,10 +91,7 @@ export const SelectScroller = (props: SelectScrollerProps) => {
     ref={constraintsRef}
     style={{ height: `${LINE_HEIGHT * NUM_SHOWN_VALUES}px` }}
   >
-    <div
-      className={styles.opacityOverlay}
-    // style={{ height: `${LINE_HEIGHT * NUM_SHOWN_VALUES}px` }}
-    />
+    <div className={styles.opacityOverlay} />
     <motion.div
       style={{ y }}
       drag='y'

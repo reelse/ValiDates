@@ -151,11 +151,13 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
           values={TIME_VALUES_HOURS}
           onSelect={handleHoursSelect}
           defaultValue={`${(date.getHours() + 1) % 12}:`}
+          infiniteValues
         />
         <SelectScroller
           values={TIME_VALUES_MINUTES}
           onSelect={handleMinutesSelect}
           defaultValue={(date.getMinutes() + 1).toString().padStart(2, '0')}
+          infiniteValues
         />
         <SelectScroller
           values={TIME_VALUES_AMPM}
