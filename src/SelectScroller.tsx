@@ -37,9 +37,9 @@ export const SelectScroller = (props: SelectScrollerProps) => {
   useEffect(() => {
     let offset = LINE_HEIGHT * 0.5
     if (props.defaultValue) {
-      const index = values.indexOf(props.defaultValue)
+      let index = values.indexOf(props.defaultValue)
       if (index === -1) {
-        throw new Error(`Default value ${props.defaultValue} not found in values`)
+        index = 0
       }
       offset += LINE_HEIGHT * (values.length / 2 - index)
     }

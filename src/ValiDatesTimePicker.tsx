@@ -29,7 +29,6 @@ const defaultProps: Partial<ValiDatesTimePickerProps> = {
 }
 
 const SMALL_STRING_HEIGHT = 24
-const CALENDAR_HEIGHT = 240
 const TIME_PICKER_HEIGHT = 32 * 7
 
 const DEFAULT_RULE: Rule = {
@@ -62,13 +61,13 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
     )
     .exhaustive()
 
-  const [editor, setEditor] = React.useState<'time' | 'date'>('time')
+  const [editor, setEditor] = React.useState<'time' | 'date'>('date')
   const smallDateDisplayStringStyles = match(editor)
     .with('time', () => ({ height: `${SMALL_STRING_HEIGHT}px`, opacity: 1 })) // when we are editing the time, show the small date string
     .with('date', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the small date string
     .exhaustive()
   const calendarDisplayStyles = match(editor)
-    .with('date', () => ({ height: `${CALENDAR_HEIGHT}px`, opacity: 1 })) // when we are editing the date, show the full calendar
+    .with('date', () => ({ height: undefined, opacity: 1 })) // when we are editing the date, show the full calendar
     .with('time', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the full calendar
     .exhaustive()
   const smallTimeDisplayStringStyles = match(editor)

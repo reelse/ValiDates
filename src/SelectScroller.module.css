@@ -1,5 +1,5 @@
 .container {
-  width: 40px;
+  /* width: 40px; */
 
   /* Establish a stacking context for the opacity overlay below */
   position: relative;

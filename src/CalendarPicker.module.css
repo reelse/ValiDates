@@ -1,6 +1,5 @@
 .container {
   min-width: 100%;
-  min-height: 32px;
 }
 
 .monthHeader {
@@ -16,6 +15,7 @@
 .monthYearHeader {
   display: flex;
   gap: 8px;
+  text-decoration: none;
 }
 
 .daysTable {
@@ -26,4 +26,14 @@
 .daysTable th {
   padding: 8px;
   border-radius: 8px;
+  text-align: center;
+}
+
+.yearSelect {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+  height: 224px;
+  overflow: hidden;
 }
