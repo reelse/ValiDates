@@ -65,13 +65,13 @@ export const CalendarPicker = (props: Props) => {
       yearSelectOpen &&
       <div className={styles.yearSelect}>
         <SelectScroller
-          defaultValue={getMonthName(date)}
+          defaultValue={getMonthName(new Date(0, date.getMonth() + 1))}
           values={Array.from({ length: 12 }, (_, i) => getMonthName(new Date(0, i)))}
           onSelect={(_, month) => { changeMonth(month) }}
           infiniteValues
         />
         <SelectScroller
-          defaultValue={date.getFullYear().toString()}
+          defaultValue={`${date.getFullYear() + 1}`}
           values={Array.from({ length: 200 }, (_, i) => `${i + date.getFullYear() - 100}`)}
           onSelect={(year) => {
             setDate(new Date(date.setFullYear(parseInt(year))))

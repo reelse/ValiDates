@@ -30,6 +30,7 @@ const defaultProps: Partial<ValiDatesTimePickerProps> = {
 
 const SMALL_STRING_HEIGHT = 24
 const TIME_PICKER_HEIGHT = 32 * 7
+const CALENDAR_HEIGHT = 272
 
 const DEFAULT_RULE: Rule = {
   level: 'info',
@@ -61,13 +62,13 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
     )
     .exhaustive()
 
-  const [editor, setEditor] = React.useState<'time' | 'date'>('date')
+  const [editor, setEditor] = React.useState<'time' | 'date'>('time')
   const smallDateDisplayStringStyles = match(editor)
     .with('time', () => ({ height: `${SMALL_STRING_HEIGHT}px`, opacity: 1 })) // when we are editing the time, show the small date string
     .with('date', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the small date string
     .exhaustive()
   const calendarDisplayStyles = match(editor)
-    .with('date', () => ({ height: undefined, opacity: 1 })) // when we are editing the date, show the full calendar
+    .with('date', () => ({ height: `${CALENDAR_HEIGHT}px`, opacity: 1 })) // when we are editing the date, show the full calendar
     .with('time', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the full calendar
     .exhaustive()
   const smallTimeDisplayStringStyles = match(editor)
@@ -99,6 +100,19 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
   const handleDayMonthChange = (date: Date) => {
   }
 
+  const getFormattedDate = () => {
+    const formattedDate = date.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+    if (date.getDate() === new Date().getDate()) {
+      return `Today, ${formattedDate.split(' ').slice(1, formattedDate.length).join(' ')}`
+    }
+    return formattedDate
+  }
+
   return <div className={styles.container}>
     <div className={styles.section}>
       <h1>{props.title}</h1>
@@ -112,7 +126,9 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         initial={smallDateDisplayStringStyles}
         style={{ overflow: 'hidden' }}
       >
-        <a onClick={() => setEditor('date')}>TODAY, AUG 10, 2025 ✎</a>
+        <a onClick={() => setEditor('date')}>
+          {getFormattedDate()} ✎
+        </a>
       </motion.div>
       {/* full calendar */}
       <motion.div
