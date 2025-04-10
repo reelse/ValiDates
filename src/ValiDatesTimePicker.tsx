@@ -17,7 +17,7 @@ const TIME_VALUES_AMPM = ['AM', 'PM']
 export type ValiDatesTimePickerProps = {
   rules: Array<Rule>
   timezone: string // America/New_York
-  onDateTimeChange: (dateTime: Date) => void
+  onConfirm: (dateTime: Date) => void
   onCancel: () => void
   title?: string
   subtitle?: string
@@ -41,8 +41,8 @@ const DEFAULT_RULE: Rule = {
 const getRuleForDate = (date: Date, rules: Array<Rule>): Rule =>
   rules.find(rule => {
     if (rule.date === date) return rule
-    if (rule.date < date && rule.range === 'before') return rule
-    if (rule.date > date && rule.range === 'after') return rule
+    if (rule.date > date && rule.range === 'before') return rule
+    if (rule.date < date && rule.range === 'after') return rule
   }) || DEFAULT_RULE
 
 export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
@@ -188,8 +188,14 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
       </div>
     }
     <div className={styles.actionButtons}>
-      <button onClick={() => props.onDateTimeChange(date)}>CANCEL</button>
-      <button onClick={() => props.onCancel()}>CONFIRM</button>
+      <button onClick={() => props.onConfirm(date)}>CANCEL</button>
+      <button
+        onClick={() => props.onCancel()}
+        disabled={rule.level === 'error'}
+        className={rule.level === 'error' ? styles.disabled : null}
+      >
+        CONFIRM
+      </button>
     </div>
   </div >
 }

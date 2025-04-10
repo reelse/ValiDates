@@ -82,26 +82,30 @@ export const CalendarPicker = (props: Props) => {
     {
       !yearSelectOpen &&
       <table className={styles.daysTable}>
-        <tr>
-          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day =>
-            <th key={day}>{day}</th>
-          )}
-        </tr>
-        {
-          daysInMonthByRows.map((days, i) =>
-            <tr key={date.getMonth() + date.getFullYear() + i} className={styles.daysRow}>
-              {days.map((day, dayIndex) => day.trim() === ''
-                ? <td key={date.getMonth() + date.getFullYear() + dayIndex} />
-                : <Day
-                  key={date.getMonth() + date.getFullYear() + day}
-                  value={day}
-                  selected={date.getDate().toString() === day}
-                  onClick={() => setDate(new Date(date.setDate(parseInt(day))))}
-                />
-              )}
-            </tr>
-          )
-        }
+        <thead>
+          <tr>
+            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day =>
+              <th key={day}>{day}</th>
+            )}
+          </tr>
+        </thead>
+        <tbody>
+          {
+            daysInMonthByRows.map((days, i) =>
+              <tr key={date.getMonth() + date.getFullYear() + i} className={styles.daysRow}>
+                {days.map((day, dayIndex) => day.trim() === ''
+                  ? <td key={date.getMonth() + date.getFullYear() + dayIndex} />
+                  : <Day
+                    key={date.getMonth() + date.getFullYear() + day}
+                    value={day}
+                    selected={date.getDate().toString() === day}
+                    onClick={() => setDate(new Date(date.setDate(parseInt(day))))}
+                  />
+                )}
+              </tr>
+            )
+          }
+        </tbody>
       </table>
     }
   </div>

@@ -17,7 +17,7 @@ export const SimplestExampleInModal: { args: ValiDatesTimePickerModalProps } = {
     valiDatesTimePickerProps: {
       rules: [],
       timezone: 'America/New_York',
-      onDateTimeChange: (date) => {
+      onConfirm: (date) => {
         throw new Error('onDateTimeChange: ' + date)
       },
       onCancel: function (): void {
