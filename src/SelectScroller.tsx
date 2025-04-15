@@ -103,7 +103,7 @@ export const SelectScroller = (props: SelectScrollerProps) => {
         modifyTarget: target => {
           const index = getCurrentlySelectedIndex(target)
           props.onSelect(values[index], index)
-          return (Math.round(target / LINE_HEIGHT) + 0.5) * LINE_HEIGHT // snap to grid
+          return (Math.floor(target / LINE_HEIGHT) + 0.5) * LINE_HEIGHT// snap to grid
         }
       }}
     >

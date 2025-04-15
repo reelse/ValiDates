@@ -98,19 +98,25 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
   }
 
   const handleDayMonthChange = (date: Date) => {
+    const newDate = new Date(date)
+    newDate.setDate(date.getDate())
+    newDate.setMonth(date.getMonth())
+    newDate.setFullYear(date.getFullYear())
+    setDate(newDate)
   }
 
-  const getFormattedDate = () => {
-    const formattedDate = date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-    if (date.getDate() === new Date().getDate()) {
-      return `Today, ${formattedDate.split(' ').slice(1, formattedDate.length).join(' ')}`
-    }
-    return formattedDate
+  let formattedCalendarDate = date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+  if (
+    date.getDate() === new Date().getDate() &&
+    date.getMonth() === new Date().getMonth() &&
+    date.getFullYear() === new Date().getFullYear()
+  ) {
+    formattedCalendarDate = `Today, ${formattedCalendarDate.split(' ').slice(1, formattedCalendarDate.length).join(' ')}`
   }
 
   return <div className={styles.container}>
@@ -127,7 +133,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         style={{ overflow: 'hidden' }}
       >
         <a onClick={() => setEditor('date')}>
-          {getFormattedDate()} ✎
+          {formattedCalendarDate} ✎
         </a>
       </motion.div>
       {/* full calendar */}
@@ -166,13 +172,11 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
           values={TIME_VALUES_HOURS}
           onSelect={handleHoursSelect}
           defaultValue={`${(date.getHours() + 1) % 12}:`}
-          infiniteValues
         />
         <SelectScroller
           values={TIME_VALUES_MINUTES}
           onSelect={handleMinutesSelect}
           defaultValue={(date.getMinutes() + 1).toString().padStart(2, '0')}
-          infiniteValues
         />
         <SelectScroller
           values={TIME_VALUES_AMPM}

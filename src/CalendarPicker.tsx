@@ -51,6 +51,8 @@ export const CalendarPicker = (props: Props) => {
     setDate(currentDate)
   }
 
+  useEffect(() => props.onDateChange(date), [date])
+
   return <div className={styles.container}>
     <div className={styles.monthHeader}>
       <a onClick={() => changeMonth(date.getMonth() - 1)}>{`<`}</a>
@@ -68,11 +70,10 @@ export const CalendarPicker = (props: Props) => {
           defaultValue={getMonthName(new Date(0, date.getMonth() + 1))}
           values={Array.from({ length: 12 }, (_, i) => getMonthName(new Date(0, i)))}
           onSelect={(_, month) => { changeMonth(month) }}
-          infiniteValues
         />
         <SelectScroller
           defaultValue={`${date.getFullYear() + 1}`}
-          values={Array.from({ length: 200 }, (_, i) => `${i + date.getFullYear() - 100}`)}
+          values={Array.from({ length: 20 }, (_, i) => `${i + date.getFullYear() - 10}`)}
           onSelect={(year) => {
             setDate(new Date(date.setFullYear(parseInt(year))))
           }}
