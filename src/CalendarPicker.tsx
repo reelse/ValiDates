@@ -69,14 +69,15 @@ export const CalendarPicker = (props: Props) => {
         <SelectScroller
           defaultValue={getMonthName(new Date(0, date.getMonth() + 1))}
           values={Array.from({ length: 12 }, (_, i) => getMonthName(new Date(0, i)))}
-          onSelect={(_, month) => { changeMonth(month) }}
+          onSelect={(month) => {
+            const monthIndex = new Date(Date.parse(month + ' 1, 2025')).getMonth()
+            changeMonth(monthIndex)
+          }}
         />
         <SelectScroller
           defaultValue={`${date.getFullYear() + 1}`}
-          values={Array.from({ length: 20 }, (_, i) => `${i + date.getFullYear() - 10}`)}
-          onSelect={(year) => {
-            setDate(new Date(date.setFullYear(parseInt(year))))
-          }}
+          values={Array.from({ length: 20 }, (_, i) => `${i + new Date().getFullYear() - 10}`)}
+          onSelect={(year) => setDate(new Date(date.setFullYear(parseInt(year))))}
         />
       </div>
     }

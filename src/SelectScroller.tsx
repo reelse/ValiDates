@@ -5,7 +5,7 @@ import styles from './SelectScroller.module.css'
 
 type SelectScrollerProps = {
   values: Array<string>
-  onSelect: (value: string, index: number) => void
+  onSelect: (value: string) => void
   defaultValue?: string
   infiniteValues?: boolean
 }
@@ -71,7 +71,7 @@ export const SelectScroller = (props: SelectScrollerProps) => {
 
   const getCurrentlySelectedIndex = (target: number) => {
     const middleIndex = Math.floor(values.length / 2) - 1
-    let index = middleIndex - Math.round(target / LINE_HEIGHT)
+    let index = middleIndex - Math.floor(target / LINE_HEIGHT)
     const paddingCount = Math.floor(NUM_SHOWN_VALUES / 2)
     if (!props.infiniteValues && index < paddingCount) {
       index = paddingCount
@@ -102,7 +102,7 @@ export const SelectScroller = (props: SelectScrollerProps) => {
         timeConstant: 100, // how fast the animation snaps to the target value
         modifyTarget: target => {
           const index = getCurrentlySelectedIndex(target)
-          props.onSelect(values[index], index)
+          props.onSelect(values[index])
           return (Math.floor(target / LINE_HEIGHT) + 0.5) * LINE_HEIGHT// snap to grid
         }
       }}
