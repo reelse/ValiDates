@@ -29,27 +29,18 @@ export const InfoRuleExample: { args: ValiDatesTimePickerProps } = {
   },
 }
 
-export const ErrorRuleExample: { args: ValiDatesTimePickerProps } = {
+export const ErrorBeforeNowRuleExample: { args: ValiDatesTimePickerProps } = {
   args: {
-    rules: [{ level: 'error', range: 'after', date: new Date(-8640000000000000), message: 'This is an error message' }],
+    rules: [{ level: 'error', range: 'before', date: new Date(), message: 'This is an error message' }],
     timezone: 'America/New_York',
     onConfirm: (date) => { throw new Error('onDateTimeChange: ' + date) },
     onCancel: () => { throw new Error('onCancel') },
   },
 }
 
-export const WarningRuleExample: { args: ValiDatesTimePickerProps } = {
+export const WarningBeforeNowRuleExample: { args: ValiDatesTimePickerProps } = {
   args: {
-    rules: [{ level: 'warning', range: 'after', date: new Date(-8640000000000000), message: 'This is a warning message' }],
-    timezone: 'America/New_York',
-    onConfirm: (date) => { throw new Error('onDateTimeChange: ' + date) },
-    onCancel: () => { throw new Error('onCancel') },
-  },
-}
-
-export const InvalidBeforeNowRuleExample: { args: ValiDatesTimePickerProps } = {
-  args: {
-    rules: [{ level: 'invalid', range: 'before', date: new Date() }],
+    rules: [{ level: 'warning', range: 'before', date: new Date(), message: 'This is a warning message' }],
     timezone: 'America/New_York',
     onConfirm: (date) => { throw new Error('onDateTimeChange: ' + date) },
     onCancel: () => { throw new Error('onCancel') },

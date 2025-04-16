@@ -57,7 +57,6 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
       { level: 'info' },
       { level: 'error' },
       { level: 'warning' },
-      { level: 'invalid' },
       () => undefined
     )
     .exhaustive()
@@ -81,7 +80,10 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
     .exhaustive()
 
   const handleHoursSelect = (value: string) => {
-    const hours = parseInt(value.split(':')[0])
+    let hours = parseInt(value.split(':')[0])
+    if (date.getHours() >= 12) {
+      hours += 12
+    }
     setDate(new Date(date.setHours(hours)))
   }
 
@@ -171,12 +173,12 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         <SelectScroller
           values={TIME_VALUES_HOURS}
           onSelect={handleHoursSelect}
-          defaultValue={`${(date.getHours() + 1) % 12}:`}
+          defaultValue={`${(date.getHours()) % 12}:`}
         />
         <SelectScroller
           values={TIME_VALUES_MINUTES}
           onSelect={handleMinutesSelect}
-          defaultValue={(date.getMinutes() + 1).toString().padStart(2, '0')}
+          defaultValue={(date.getMinutes()).toString().padStart(2, '0')}
         />
         <SelectScroller
           values={TIME_VALUES_AMPM}

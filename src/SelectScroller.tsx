@@ -42,6 +42,7 @@ export const SelectScroller = (props: SelectScrollerProps) => {
         index = 0
       }
       offset += LINE_HEIGHT * (values.length / 2 - index)
+      offset -= LINE_HEIGHT
     }
     if (props.infiniteValues) {
       // offset by the number of duplicates

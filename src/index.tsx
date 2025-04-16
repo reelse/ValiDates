@@ -15,7 +15,6 @@ export type Rule =
   | { level: 'info'; range: Range; date: ValiDate; message?: string }
   | { level: 'error'; range: Range; date: ValiDate; message?: string }
   | { level: 'warning'; range: Range; date: ValiDate; message?: string }
-  | { level: 'invalid'; range: Range; date: ValiDate }
 
 export const ValiDatesTimePicker = ValiDatesTimePickerComponent
 export const ValiDatesTimePickerModal = ValiDatesTimePickerModalComponent
