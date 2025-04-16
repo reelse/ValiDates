@@ -51,8 +51,8 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
 
   const ruleMessageElement: React.JSX.Element | undefined = match(rule)
     .with({ level: 'info', message: P.string }, rule => <p>{rule.message}</p>)
-    .with({ level: 'error', message: P.string }, rule => <p>{rule.message}</p>)
-    .with({ level: 'warning', message: P.string }, rule => <p>{rule.message}</p>)
+    .with({ level: 'error', message: P.string }, rule => <p className={styles.errorMessage}>{rule.message}</p>)
+    .with({ level: 'warning', message: P.string }, rule => <p className={styles.warningMessage}>{rule.message}</p>)
     .with(
       { level: 'info' },
       { level: 'error' },
@@ -82,7 +82,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
   const handleHoursSelect = (value: string) => {
     let hours = parseInt(value.split(':')[0])
     if (date.getHours() >= 12) {
-      hours += 12
+      hours = hours % 12 + 12
     }
     setDate(new Date(date.setHours(hours)))
   }

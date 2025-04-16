@@ -36,6 +36,14 @@
   text-decoration: none;
 }
 
+.warningMessage {
+  color: #a38136;
+}
+
+.errorMessage {
+  color: #cf3028;
+}
+
 .actionButtons {
   display: flex;
   gap: 16px;

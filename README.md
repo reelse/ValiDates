@@ -55,17 +55,6 @@ ValiDates is a dateTime picker for React that aims to simply provide you the abi
   ]}
   ```
 
-- **Invalid**: The end user cannot select this date. No message is shown because the date does not show up on the picker.\
-  i.e. "I want to start working at 8am... on Jan 1, 1969"
-
-  ```
-  const startOfEpoch = new Date('1970-1-1 UTC')
-
-  rules={[
-    { level: 'invalid', range: 'before', date: startOfEpoch },
-  ]}
-  ```
-
 Rules are in priority order. ValiDates selects the first rule that fits each possible dateTime. If no rule fits, the dateTime is valid.
 
 <br/>

@@ -6,7 +6,7 @@ import './reset.css'
 import { ValiDatesTimePicker as ValiDatesTimePickerComponent } from '../src/ValiDatesTimePicker'
 import { ValiDatesTimePickerModal as ValiDatesTimePickerModalComponent } from '../src/ValiDatesTimePickerModal'
 
-// ranges are inclusive
+// ranges are exclusive
 export type Range = 'before' | 'after'
 
 export type ValiDate = Date | string
