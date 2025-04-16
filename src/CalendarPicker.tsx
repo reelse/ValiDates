@@ -57,15 +57,35 @@ export const CalendarPicker = (props: Props) => {
     <div className={styles.monthHeader}>
       <a onClick={() => changeMonth(date.getMonth() - 1)}>{`<`}</a>
       <a onClick={() => setYearSelectOpen(!yearSelectOpen)} className={styles.monthYearHeader}>
-        <p>{getMonthName(date)}</p>
-        <p>{date.getFullYear()}</p>
-        ✎
+        {
+          yearSelectOpen
+            ? <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >Back</motion.p>
+            : <motion.div
+              className={styles.monthYearText}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <p>{getMonthName(date)}</p>
+              <p>{date.getFullYear()}</p>
+              ✎
+            </motion.div>
+        }
       </a>
       <a onClick={() => changeMonth(date.getMonth() + 1)}>{`>`}</a>
     </div>
     {
       yearSelectOpen &&
-      <div className={styles.yearSelect}>
+      <motion.div
+        className={styles.yearSelect}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <SelectScroller
           defaultValue={getMonthName(new Date(0, date.getMonth() + 1))}
           values={Array.from({ length: 12 }, (_, i) => getMonthName(new Date(0, i)))}
@@ -79,11 +99,16 @@ export const CalendarPicker = (props: Props) => {
           values={Array.from({ length: 20 }, (_, i) => `${i + new Date().getFullYear() - 10}`)}
           onSelect={(year) => setDate(new Date(date.setFullYear(parseInt(year))))}
         />
-      </div>
+      </motion.div>
     }
     {
       !yearSelectOpen &&
-      <table className={styles.daysTable}>
+      <motion.table
+        className={styles.daysTable}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
         <thead>
           <tr>
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day =>
@@ -108,7 +133,7 @@ export const CalendarPicker = (props: Props) => {
             )
           }
         </tbody>
-      </table>
+      </motion.table>
     }
   </div>
 }

@@ -132,7 +132,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         initial={smallDateDisplayStringStyles}
         style={{ overflow: 'hidden' }}
       >
-        <a onClick={() => setEditor('date')}>
+        <a onClick={() => setEditor('date')} className={styles.smallDateText}>
           {formattedCalendarDate} ✎
         </a>
       </motion.div>
@@ -157,7 +157,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         initial={smallTimeDisplayStringStyles}
         style={{ overflow: 'hidden' }}
       >
-        <a onClick={() => setEditor('time')}>
+        <a onClick={() => setEditor('time')} className={styles.smallTimeText}>
           {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} ✎
         </a>
       </motion.div>

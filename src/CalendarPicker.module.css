@@ -13,9 +13,12 @@
 }
 
 .monthYearHeader {
-  display: flex;
-  gap: 8px;
   text-decoration: none;
+}
+
+.monthYearText {
+  display: flex;
+  gap: 4px;
 }
 
 .daysTable {

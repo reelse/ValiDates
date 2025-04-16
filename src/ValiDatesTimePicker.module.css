@@ -28,6 +28,14 @@
   width: 100%;
 }
 
+.smallDateText {
+  text-decoration: none;
+}
+
+.smallTimeText {
+  text-decoration: none;
+}
+
 .actionButtons {
   display: flex;
   gap: 16px;
