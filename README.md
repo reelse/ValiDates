@@ -20,7 +20,7 @@ The customizable, rule-based, dateTime picker for React!
 
 ValiDates is a dateTime picker for React that aims to simply provide you the ability to setup dateTime ranges that fall into one of four categories:
 
-- **Info**: This is a totally legitimate dateTime that the end user should be able to select.\
+- **Info**: This is a legitimate dateTime that the end user should be able to select.\
   i.e. "I started working today at 8am"\
   `rules={} // ValiDate is permissive by default. This would let the user select any date since 0CE!`\
   `rules={ level: 'info', range: 'before', date: new Date('3000-1-1'), message: 'Thanks for clocking in!' }`
@@ -71,7 +71,7 @@ Rules are in priority order. ValiDates selects the first rule that fits each pos
 
 ## How to Use
 
-### Simplest and Most Permissive
+### Example: Simplest and Most Permissive
 
 ```
 import { ValiDatesTimePicker } from '@reelse/vali-dates'
@@ -79,8 +79,8 @@ import { ValiDatesTimePicker } from '@reelse/vali-dates'
 // Allow the user to select any date at any time with the default styling
 return <ValiDatesTimePicker rules={} />
 ```
-
-### Style the Picker Inline
+<!--
+### Style the Picker Inline (Coming Soon)
 
 ```
 <ValiDatesTimePicker
@@ -97,7 +97,7 @@ return <ValiDatesTimePicker rules={} />
 
 For a full breakdown of possible style props, see here.
 
-### Style the Picker with CSS
+### Style the Picker with CSS (Coming Soon)
 
 MyComponent.jsx:
 
@@ -123,8 +123,9 @@ MyComponent.module.css:
   backgroundColor: 'orange';
 }
 ```
+-->
 
-### Add Rules
+### Example: Add Rules
 
 ```
 const startOfToday = new Date()
@@ -161,6 +162,14 @@ Thanks for your help! To contribute:
 - `yarn storybook`
 - make your changes on a new branch
 - create a PR against main
+
+<br />
+
+Some features we'd like to add soon:
+- Aria/Accessibility support
+- Keyboard navigation support
+- External styling
+- Bottom drawer display option
 
 <br/>
 
