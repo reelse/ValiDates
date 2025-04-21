@@ -1,6 +1,6 @@
 {
   "name": "@reelse/vali-dates",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "The customizable, rule-based, dateTime picker for React!",
   "main": "dist/vali-date.js",
   "type": "module",
@@ -46,7 +46,8 @@
     "@fontsource-variable/nunito": "^5.2.5",
     "classnames": "^2.5.1",
     "motion": "^12.6.2",
-    "react": "^19.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "ts-pattern": "^5.7.0"
   }
 }
