@@ -1,8 +1,8 @@
 {
   "name": "@reelse/vali-dates",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "The customizable, rule-based, dateTime picker for React!",
-  "main": "dist/vali-date.umd.cjs",
+  "main": "dist/vali-date.js",
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
