@@ -21,6 +21,7 @@ export type ValiDatesTimePickerProps = {
   onCancel: () => void
   title?: string
   subtitle?: string
+  disableTimePicker?: boolean
 }
 
 const defaultProps: Partial<ValiDatesTimePickerProps> = {
@@ -61,7 +62,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
     )
     .exhaustive()
 
-  const [editor, setEditor] = React.useState<'time' | 'date'>('time')
+  const [editor, setEditor] = React.useState<'time' | 'date'>(props.disableTimePicker ? 'date' : 'time')
   const smallDateDisplayStringStyles = match(editor)
     .with('time', () => ({ height: `${SMALL_STRING_HEIGHT}px`, opacity: 1 })) // when we are editing the time, show the small date string
     .with('date', () => ({ height: 0, opacity: 0 })) // otherwise no need to show the small date string
@@ -127,7 +128,6 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
       <h2>{props.subtitle}</h2>
     </div>
     <div className={styles.section}>
-      <h3>Date</h3>
       {/* small date string */}
       <motion.div
         animate={smallDateDisplayStringStyles}
@@ -148,45 +148,48 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
         <CalendarPicker onDateChange={handleDayMonthChange} defaultDate={date} />
       </motion.div>
     </div>
-    <div className={styles.section}>
-      <hr className={styles.horizontalRule} />
-    </div>
-    <div className={styles.section}>
-      <h3>Time</h3>
-      {/* small time string */}
-      <motion.div
-        animate={smallTimeDisplayStringStyles}
-        initial={smallTimeDisplayStringStyles}
-        style={{ overflow: 'hidden' }}
-      >
-        <a onClick={() => setEditor('time')} className={styles.smallTimeText}>
-          {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} ✎
-        </a>
-      </motion.div>
-      {/* full time picker */}
-      <motion.div
-        className={styles.timeScrollers}
-        animate={timePickerDisplayStyles}
-        initial={timePickerDisplayStyles}
-        style={{ overflow: 'hidden' }}
-      >
-        <SelectScroller
-          values={TIME_VALUES_HOURS}
-          onSelect={handleHoursSelect}
-          defaultValue={`${(date.getHours()) % 12}:`}
-        />
-        <SelectScroller
-          values={TIME_VALUES_MINUTES}
-          onSelect={handleMinutesSelect}
-          defaultValue={(date.getMinutes()).toString().padStart(2, '0')}
-        />
-        <SelectScroller
-          values={TIME_VALUES_AMPM}
-          onSelect={handleAmPmSelect}
-          defaultValue={(date.getHours() + 1) < 12 ? 'AM' : 'PM'}
-        />
-      </motion.div>
-    </div >
+    {
+      !props.disableTimePicker && <>
+        {/* <div className={styles.section}> */}
+        <hr className={styles.horizontalRule} />
+        {/* </div> */}
+        <div className={styles.section}>
+          {/* small time string */}
+          <motion.div
+            animate={smallTimeDisplayStringStyles}
+            initial={smallTimeDisplayStringStyles}
+            style={{ overflow: 'hidden' }}
+          >
+            <a onClick={() => setEditor('time')} className={styles.smallTimeText}>
+              {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} ✎
+            </a>
+          </motion.div>
+          {/* full time picker */}
+          <motion.div
+            className={styles.timeScrollers}
+            animate={timePickerDisplayStyles}
+            initial={timePickerDisplayStyles}
+            style={{ overflow: 'hidden' }}
+          >
+            <SelectScroller
+              values={TIME_VALUES_HOURS}
+              onSelect={handleHoursSelect}
+              defaultValue={`${(date.getHours()) % 12}:`}
+            />
+            <SelectScroller
+              values={TIME_VALUES_MINUTES}
+              onSelect={handleMinutesSelect}
+              defaultValue={(date.getMinutes()).toString().padStart(2, '0')}
+            />
+            <SelectScroller
+              values={TIME_VALUES_AMPM}
+              onSelect={handleAmPmSelect}
+              defaultValue={(date.getHours() + 1) < 12 ? 'AM' : 'PM'}
+            />
+          </motion.div>
+        </div >
+      </>
+    }
     {
       ruleMessageElement &&
       <div className={styles.section}>

@@ -26,3 +26,20 @@ export const SimplestExampleInModal: { args: ValiDatesTimePickerModalProps } = {
     },
   },
 }
+
+export const InModalWithoutTimePicker: { args: ValiDatesTimePickerModalProps } = {
+  args: {
+    open: true,
+    valiDatesTimePickerProps: {
+      rules: [],
+      timezone: 'America/New_York',
+      disableTimePicker: true,
+      onConfirm: (date) => {
+        throw new Error('onDateTimeChange: ' + date)
+      },
+      onCancel: function (): void {
+        throw new Error('onCancel')
+      },
+    },
+  },
+}
