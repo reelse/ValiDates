@@ -179,5 +179,6 @@ Some features we'd like to add soon:
 
 This can only be done by those with access to the npm organization.
 
+- `npx vite build`
 - `npm login`
 - `npm publish --access public` and follow the prompts to increase the version.

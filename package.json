@@ -1,6 +1,6 @@
 {
   "name": "@reelse/vali-dates",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "The customizable, rule-based, dateTime picker for React!",
   "main": "dist/vali-date.umd.cjs",
   "type": "module",
@@ -38,6 +38,7 @@
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0",
     "vite": "^6.2.2",
+    "vite-plugin-dts": "^4.5.3",
     "vitest": "^3.0.9"
   },
   "dependencies": {
@@ -46,6 +47,6 @@
     "classnames": "^2.5.1",
     "motion": "^12.6.2",
     "react": "^19.0.0",
-    "ts-pattern": "^5.6.2"
+    "ts-pattern": "^5.7.0"
   }
 }
