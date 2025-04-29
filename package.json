@@ -1,6 +1,6 @@
 {
   "name": "@reelse/vali-dates",
-  "version": "1.0.6",
+  "version": "1.0.12",
   "description": "The customizable, rule-based, dateTime picker for React!",
   "main": "dist/vali-date.js",
   "type": "module",
@@ -8,7 +8,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "dev": "yarn storybook",
-    "clean": "eslint && prettier --write ."
+    "clean": "eslint && prettier --write .",
+    "build": "npx vite build"
   },
   "keywords": [],
   "author": "Virtual Masons",

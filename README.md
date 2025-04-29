@@ -166,10 +166,11 @@ Thanks for your help! To contribute:
 <br />
 
 Some features we'd like to add soon:
-- Aria/Accessibility support
-- Keyboard navigation support
-- External styling
-- Bottom drawer display option
+- Cypress Tests
+- Aria/Accessibility Support
+- Keyboard Navigation Support
+- External Styling
+- Bottom Drawer Display Option
 
 <br/>
 
@@ -179,6 +180,6 @@ Some features we'd like to add soon:
 
 This can only be done by those with access to the npm organization.
 
-- `npx vite build`
+- `yarn build`
 - `npm login`
 - `npm publish --access public` and follow the prompts to increase the version.

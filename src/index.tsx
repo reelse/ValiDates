@@ -6,6 +6,9 @@ import './reset.css'
 import { ValiDatesTimePicker as ValiDatesTimePickerComponent } from '../src/ValiDatesTimePicker'
 import { ValiDatesTimePickerModal as ValiDatesTimePickerModalComponent } from '../src/ValiDatesTimePickerModal'
 
+export type { ValiDatesTimePickerProps } from '../src/ValiDatesTimePicker'
+export type { ValiDatesTimePickerModalProps } from '../src/ValiDatesTimePickerModal'
+
 // ranges are exclusive
 export type Range = 'before' | 'after'
 
