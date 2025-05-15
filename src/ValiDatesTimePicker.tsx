@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion } from "motion/react"
+import { motion } from 'motion/react'
 import { match, P } from 'ts-pattern'
 
 import styles from './ValiDatesTimePicker.module.css'
@@ -40,7 +40,7 @@ const DEFAULT_RULE: Rule = {
 }
 
 const getRuleForDate = (date: Date, rules: Array<Rule>): Rule =>
-  rules.find(rule => {
+  rules.find((rule) => {
     if (rule.date === date) return rule
     if (rule.date > date && rule.range === 'before') return rule
     if (rule.date < date && rule.range === 'after') return rule
@@ -51,15 +51,10 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
   const rule = getRuleForDate(date, props.rules)
 
   const ruleMessageElement: React.JSX.Element | undefined = match(rule)
-    .with({ level: 'info', message: P.string }, rule => <p>{rule.message}</p>)
-    .with({ level: 'error', message: P.string }, rule => <p className={styles.errorMessage}>{rule.message}</p>)
-    .with({ level: 'warning', message: P.string }, rule => <p className={styles.warningMessage}>{rule.message}</p>)
-    .with(
-      { level: 'info' },
-      { level: 'error' },
-      { level: 'warning' },
-      () => undefined
-    )
+    .with({ level: 'info', message: P.string }, (rule) => <p>{rule.message}</p>)
+    .with({ level: 'error', message: P.string }, (rule) => <p className={styles.errorMessage}>{rule.message}</p>)
+    .with({ level: 'warning', message: P.string }, (rule) => <p className={styles.warningMessage}>{rule.message}</p>)
+    .with({ level: 'info' }, { level: 'error' }, { level: 'warning' }, () => undefined)
     .exhaustive()
 
   const [editor, setEditor] = React.useState<'time' | 'date'>(props.disableTimePicker ? 'date' : 'time')
@@ -83,7 +78,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
   const handleHoursSelect = (value: string) => {
     let hours = parseInt(value.split(':')[0])
     if (date.getHours() >= 12) {
-      hours = hours % 12 + 12
+      hours = (hours % 12) + 12
     }
     setDate(new Date(date.setHours(hours)))
   }
@@ -96,7 +91,7 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
   const handleAmPmSelect = (value: string) => {
     const hours = date.getHours()
     const isAm = value === 'AM'
-    const newHours = isAm ? hours % 12 : hours % 12 + 12
+    const newHours = isAm ? hours % 12 : (hours % 12) + 12
     setDate(new Date(date.setHours(newHours)))
   }
 
@@ -122,91 +117,91 @@ export const ValiDatesTimePicker = (props: ValiDatesTimePickerProps) => {
     formattedCalendarDate = `Today, ${formattedCalendarDate.split(' ').slice(1, formattedCalendarDate.length).join(' ')}`
   }
 
-  return <div className={styles.container}>
-    <div className={styles.section}>
-      <h1>{props.title}</h1>
-      <h2>{props.subtitle}</h2>
-    </div>
-    <div className={styles.section}>
-      {/* small date string */}
-      <motion.div
-        animate={smallDateDisplayStringStyles}
-        initial={smallDateDisplayStringStyles}
-        style={{ overflow: 'hidden' }}
-      >
-        <a onClick={() => setEditor('date')} className={styles.smallDateText}>
-          {formattedCalendarDate} ✎
-        </a>
-      </motion.div>
-      {/* full calendar */}
-      <motion.div
-        className={styles.calendarPicker}
-        animate={calendarDisplayStyles}
-        initial={calendarDisplayStyles}
-        style={{ overflow: 'hidden' }}
-      >
-        <CalendarPicker onDateChange={handleDayMonthChange} defaultDate={date} />
-      </motion.div>
-    </div>
-    {
-      !props.disableTimePicker && <>
-        {/* <div className={styles.section}> */}
-        <hr className={styles.horizontalRule} />
-        {/* </div> */}
-        <div className={styles.section}>
-          {/* small time string */}
-          <motion.div
-            animate={smallTimeDisplayStringStyles}
-            initial={smallTimeDisplayStringStyles}
-            style={{ overflow: 'hidden' }}
-          >
-            <a onClick={() => setEditor('time')} className={styles.smallTimeText}>
-              {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} ✎
-            </a>
-          </motion.div>
-          {/* full time picker */}
-          <motion.div
-            className={styles.timeScrollers}
-            animate={timePickerDisplayStyles}
-            initial={timePickerDisplayStyles}
-            style={{ overflow: 'hidden' }}
-          >
-            <SelectScroller
-              values={TIME_VALUES_HOURS}
-              onSelect={handleHoursSelect}
-              defaultValue={`${(date.getHours()) % 12}:`}
-            />
-            <SelectScroller
-              values={TIME_VALUES_MINUTES}
-              onSelect={handleMinutesSelect}
-              defaultValue={(date.getMinutes()).toString().padStart(2, '0')}
-            />
-            <SelectScroller
-              values={TIME_VALUES_AMPM}
-              onSelect={handleAmPmSelect}
-              defaultValue={(date.getHours() + 1) < 12 ? 'AM' : 'PM'}
-            />
-          </motion.div>
-        </div >
-      </>
-    }
-    {
-      ruleMessageElement &&
+  return (
+    <div className={styles.container}>
       <div className={styles.section}>
-        {ruleMessageElement}
+        <h1>{props.title}</h1>
+        <h2>{props.subtitle}</h2>
       </div>
-    }
-    <div className={styles.actionButtons}>
-      <button onClick={() => props.onConfirm(date)}>CANCEL</button>
-      <button
-        onClick={() => props.onCancel()}
-        disabled={rule.level === 'error'}
-        className={rule.level === 'error' ? styles.disabled : null}
-      >
-        CONFIRM
-      </button>
+      <div className={styles.section}>
+        {/* small date string */}
+        <motion.div
+          animate={smallDateDisplayStringStyles}
+          initial={smallDateDisplayStringStyles}
+          style={{ overflow: 'hidden' }}
+        >
+          <a onClick={() => setEditor('date')} className={styles.smallDateText}>
+            {formattedCalendarDate} ✎
+          </a>
+        </motion.div>
+        {/* full calendar */}
+        <motion.div
+          className={styles.calendarPicker}
+          animate={calendarDisplayStyles}
+          initial={calendarDisplayStyles}
+          style={{ overflow: 'hidden' }}
+        >
+          <CalendarPicker onDateChange={handleDayMonthChange} defaultDate={date} />
+        </motion.div>
+      </div>
+      {!props.disableTimePicker && (
+        <>
+          <hr className={styles.horizontalRule} />
+          <div className={styles.section}>
+            {/* small time string */}
+            <motion.div
+              animate={smallTimeDisplayStringStyles}
+              initial={smallTimeDisplayStringStyles}
+              style={{ overflow: 'hidden' }}
+            >
+              <a onClick={() => setEditor('time')} className={styles.smallTimeText}>
+                {date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} ✎
+              </a>
+            </motion.div>
+            {/* full time picker */}
+            <motion.div
+              className={styles.timeScrollers}
+              animate={timePickerDisplayStyles}
+              initial={timePickerDisplayStyles}
+              style={{ overflow: 'hidden' }}
+            >
+              <SelectScroller
+                infiniteValues={true}
+                values={TIME_VALUES_HOURS}
+                onSelect={handleHoursSelect}
+                defaultValue={`${date.getHours() % 12}:`}
+              />
+              <SelectScroller
+                infiniteValues={true}
+                values={TIME_VALUES_MINUTES}
+                onSelect={(value) => {
+                  console.log(value)
+                  handleMinutesSelect(value)
+                }}
+                defaultValue={date.getMinutes().toString().padStart(2, '0')}
+              />
+              <SelectScroller
+                values={TIME_VALUES_AMPM}
+                onSelect={handleAmPmSelect}
+                defaultValue={date.getHours() + 1 < 12 ? 'AM' : 'PM'}
+              />
+            </motion.div>
+          </div>
+        </>
+      )}
+      {ruleMessageElement && <div className={styles.section}>{ruleMessageElement}</div>}
+      <div className={styles.actionButtons}>
+        <button onClick={() => props.onConfirm(date)}>CANCEL</button>
+        <button
+          onClick={() => props.onCancel()}
+          disabled={rule.level === 'error'}
+          className={rule.level === 'error' ? styles.disabled : null}
+        >
+          CONFIRM
+        </button>
+      </div>
     </div>
-  </div >
+  )
 }
 
 ValiDatesTimePicker.defaultProps = defaultProps
