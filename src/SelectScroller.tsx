@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { motion, useDragControls, useMotionValue, useSpring } from "motion/react"
+import React, { useLayoutEffect, useRef } from 'react'
 
 import styles from './SelectScroller.module.css'
 
@@ -14,9 +13,18 @@ const LINE_HEIGHT = 32
 const NUM_SHOWN_VALUES = 7 // 3 above, 3 below, 1 in the middle
 const INFINITE_DUPLICATES = 9 // number of times to duplicate the values for infinite scrolling
 
+// Helper to get the currently centered index
+const getCurrentlySelectedIndex = (scrollRef: HTMLDivElement, paddingItemCount) => {
+  if (!scrollRef) return 0
+  const scrollTop = scrollRef.scrollTop
+  const index = Math.round(scrollTop / LINE_HEIGHT) + paddingItemCount
+
+  return index
+}
+
 export const SelectScroller = (props: SelectScrollerProps) => {
-  const constraintsRef = useRef(null)
-  const y = useMotionValue(0)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollTimeout = useRef<number | null>(null)
 
   let values = props.values
   if (props.infiniteValues) {
@@ -24,100 +32,57 @@ export const SelectScroller = (props: SelectScrollerProps) => {
     for (let i = 0; i < INFINITE_DUPLICATES; i++) {
       values = [...values, ...props.values]
     }
-
-  } else {
-    // pad the values by Math.floor(NUM_SHOWN_VALUES / 2) on each side
-    const padding = Array.from({ length: Math.floor(NUM_SHOWN_VALUES / 2) }, () => ' ')
-    values = [...padding, ...props.values, ...padding]
   }
 
-  const dragControls = useDragControls()
+  // pad the values with enough empty items to allow the first and last values to be in the center
+  const paddingItemCount = Math.floor(NUM_SHOWN_VALUES / 2)
+  const padding = Array.from({ length: paddingItemCount }, () => ' ')
+  values = [...padding, ...values, ...padding]
 
-  // offset the starting position by half + the index of the passed in value
-  useEffect(() => {
-    let offset = LINE_HEIGHT * 0.5
+  // Set initial scroll position to center the default value
+  useLayoutEffect(() => {
+    if (!scrollRef.current) return
+    let index = 0
     if (props.defaultValue) {
-      let index = values.indexOf(props.defaultValue)
-      if (index === -1) {
-        index = 0
-      }
-      offset += LINE_HEIGHT * (values.length / 2 - index)
-      offset -= LINE_HEIGHT
-    }
-    if (props.infiniteValues) {
-      // offset by the number of duplicates
-      const numDuplicatesPadding = Math.floor(INFINITE_DUPLICATES / 2)
-      offset -= LINE_HEIGHT * props.values.length * numDuplicatesPadding
-    }
-
-    y.set(offset)
-  }, [])
-
-  // if the scroller is infinite, make sure it stays in the bounds so the user never sees the end
-  useEffect(() => {
-    const unsubscribe = y.on('animationComplete', () => {
+      index = values.indexOf(props.defaultValue)
       if (props.infiniteValues) {
-        const numDuplicatesPadding = Math.floor(INFINITE_DUPLICATES / 2)
-        const minHeight = LINE_HEIGHT * props.values.length * (numDuplicatesPadding - 0.5)
-        const maxHeight = LINE_HEIGHT * props.values.length * (numDuplicatesPadding + 1.5)
-        if (y.get() < minHeight) {
-          y.jump(y.get() + LINE_HEIGHT * props.values.length)
-        } else if (y.get() > maxHeight) {
-          y.jump(y.get() - LINE_HEIGHT * props.values.length)
-        }
+        index = index + Math.floor(INFINITE_DUPLICATES / 2) * props.values.length
       }
-    })
-    return unsubscribe
+      if (index === -1) index = 0
+    }
+    // Center the selected value
+    const scrollTo = LINE_HEIGHT * index - LINE_HEIGHT * paddingItemCount
+    scrollRef.current.scrollTop = scrollTo
   }, [])
 
-  const getCurrentlySelectedIndex = (target: number) => {
-    const middleIndex = Math.floor(values.length / 2) - 1
-    let index = middleIndex - Math.floor(target / LINE_HEIGHT)
-    const paddingCount = Math.floor(NUM_SHOWN_VALUES / 2)
-    if (!props.infiniteValues && index < paddingCount) {
-      index = paddingCount
+  // Debounced onSelect after scroll settles
+  const handleScroll = () => {
+    if (scrollTimeout.current) {
+      clearTimeout(scrollTimeout.current)
+      scrollTimeout.current = null
     }
-    if (!props.infiniteValues && index > values.length - paddingCount - 1) {
-      index = values.length - paddingCount - 1
-    }
-    if (props.infiniteValues) {
-      // wrap around the index to create an infinite scroll effect
-      index = index % props.values.length
-    }
-    return index
+    scrollTimeout.current = setTimeout(() => {
+      props.onSelect(values[getCurrentlySelectedIndex(scrollRef.current, paddingItemCount)])
+      scrollTimeout.current = null
+    }, 120)
   }
 
-  return <div
-    className={styles.container}
-    ref={constraintsRef}
-    style={{ height: `${LINE_HEIGHT * NUM_SHOWN_VALUES}px` }}
-  >
-    <div className={styles.opacityOverlay} />
-    <motion.div
-      style={{ y }}
-      drag='y'
-      dragConstraints={constraintsRef}
-      dragControls={dragControls}
-      dragTransition={{
-        power: 0, // how much the velocity will be used to keep the component moving after you release it
-        timeConstant: 100, // how fast the animation snaps to the target value
-        modifyTarget: target => {
-          const index = getCurrentlySelectedIndex(target)
-          props.onSelect(values[index])
-          return (Math.floor(target / LINE_HEIGHT) + 0.5) * LINE_HEIGHT// snap to grid
-        }
-      }}
-    >
-      {values.map((value, index) => {
-        return <p
-          key={index}
-          className={styles.text}
-          style={{
-            lineHeight: `${LINE_HEIGHT}px`,
-          }}
-        >{value}</p>
-      }
-      )}
-    </motion.div>
-  </div >
+  return (
+    <div className={styles.container} style={{ height: `${LINE_HEIGHT * NUM_SHOWN_VALUES}px` }}>
+      <div className={styles.opacityOverlay} />
+      <div ref={scrollRef} className={styles.scroller} onScroll={handleScroll}>
+        {values.map((value, index) => (
+          <p
+            key={index}
+            className={styles.text}
+            style={{
+              lineHeight: `${LINE_HEIGHT}px`,
+            }}
+          >
+            {value}
+          </p>
+        ))}
+      </div>
+    </div>
+  )
 }

@@ -10,12 +10,26 @@
   align-items: center;
 }
 
+.scroller {
+  overflow-y: auto;
+  max-height: 100%;
+  scroll-snap-type: y mandatory;
+  /* Hide scrollbar for Webkit browsers */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+.scroller::-webkit-scrollbar {
+  display: none;
+}
+
 .text {
+  scroll-snap-align: center;
   font-weight: 600;
   font-size: 24px;
   /* line-height: 32px; set using jsx style */
   color: #202021;
   white-space: pre;
+  text-align: right;
 }
 
 .opacityOverlay {
